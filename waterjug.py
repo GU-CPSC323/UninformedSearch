@@ -75,6 +75,51 @@ def get_solution(node):
 
 def graph_search(problem, strategy):
     """Perform graph search using BFS or DFS."""
+    start = problem.initial_state
+    frontier = [Node(start)]
+    reached = {start}
+
+    print ("Initial Frontier",[n.state for n in frontier])
+    print("Initial Reached:", reached)
+
+    while frontier:
+        if strategy == "dfs":
+            #LIFO
+            node = frontier.pop()
+        elif strategy == "bfs":
+            #FIFO
+            node = frontier.pop(0)
+        else:
+            print("not valid strategy")
+            return
+
+        print("\nExpanding:", node.state)
+
+        #check for goal
+        if problem.is_goal(node.state):
+            return get_solution(node)
+
+        #expand node
+        children = problem.successors(node.state)
+        print("Successors:", children)
+
+        if strategy == "dfs":
+            children.reverse()
+
+        for child_state, action in children:
+            if child_state not in reached:
+                reached.add(child_state)
+                child_node= Node(
+                    child_state,
+                    node,
+                    action,
+                    node.path_cost+1
+                                 )
+                frontier.append(child_node)
+        print("Frontiers:", [(n.state, n.action) for n in frontier])
+        print("Reached:", reached)
+       
+
     return None, None
 
     
@@ -84,7 +129,7 @@ if __name__ == "__main__":
 
     #try "bfs" or "dfs"
     problem = WaterJugProblem((0,0))
-    strategy = "bfs"
+    strategy = "dfs"
     path, actions = graph_search(problem, strategy)
 
     print("Path:", path)
