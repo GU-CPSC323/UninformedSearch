@@ -22,8 +22,8 @@ class Node:
 
 class WaterJugProblem:
 
-    def __init__(self):
-        self.initial_state = (0, 0)
+    def __init__(self,initial_state):
+        self.initial_state = initial_state
 
     def is_goal(self, state):
         """Return True if either jug contains exactly 2 gallons."""
@@ -83,7 +83,7 @@ def graph_search(problem, strategy):
 if __name__ == "__main__":
 
     #try "bfs" or "dfs"
-    problem = WaterJugProblem()
+    problem = WaterJugProblem((0,0))
     strategy = "bfs"
     path, actions = graph_search(problem, strategy)
 
